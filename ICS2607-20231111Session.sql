@@ -1,3 +1,4 @@
+-- TABLE: product --
 DROP TABLE product;
 CREATE TABLE product 
 	(prod_id int AUTO_INCREMENT,
@@ -13,17 +14,14 @@ INSERT INTO product (prod_name, prod_src, prod_sales) values ('Bread', 'Landers'
 INSERT INTO product (prod_name, prod_src, prod_sales) values ('Mayonnaise', 'Landers', 275);
 INSERT INTO product (prod_name, prod_src, prod_sales) values ('EXO: EXIST Album', 'Naver', 1074914);
 INSERT INTO product (prod_name, prod_src, prod_sales) values ('Cigarette', 'Southstar', 0);
-INSERT INTO product (prod_name, prod_src, prod_sales) values ('TEST', 'TEST', 1000);
 
 UPDATE product
 	SET prod_sales = 10
     WHERE prod_name = 'Cigarette';
+    
+-- TABLE: inventory --
 
-
-SELECT * FROM product;
-
-DROP TABLE inventory; 
-
+DROP TABLE inventory;
 CREATE TABLE inventory 
 	(prod_id int NOT NULL,
      prod_qty bigint NOT NULL,
@@ -38,8 +36,8 @@ INSERT INTO inventory (prod_id, prod_qty, prod_bad) values (5, 57, 7);
 INSERT INTO inventory (prod_id, prod_qty, prod_bad) values (6, 2000000, 45090);
 INSERT INTO inventory (prod_id, prod_qty, prod_bad) values (7, 50, 20);
 
+-- TABLE: delivery --
 DROP TABLE delivery;
-
 CREATE TABLE delivery
 	( _id int AUTO_INCREMENT NOT NULL,
 	 delivery_id varchar(10) NOT NULL,
@@ -56,9 +54,12 @@ INSERT INTO delivery (_id, delivery_id, delivery_date, delivery_prod, delivery_q
 INSERT INTO delivery (_id, delivery_id, delivery_date, delivery_prod, delivery_qty) values (6, 202311106, current_date(), 6, 2000000 + 45090);
 INSERT INTO delivery (_id, delivery_id, delivery_date, delivery_prod, delivery_qty) values (7, 202311107, current_date(), 7, 70);
 
+-- TEST script --
+INSERT INTO product (prod_name, prod_src, prod_sales) values ('TEST', 'TEST', 1000);
 DELETE FROM product
     WHERE prod_name = 'TEST';
 
+-- CMD for Projected Sales --
 SELECT
 	p.prod_id as prod_id,
     p.prod_name as prod_name,
@@ -67,7 +68,7 @@ FROM product p
 LEFT JOIN inventory i
 	ON p.prod_id = i.prod_id;
 
-
+-- CMD for Item Categorization --
 SELECT 
 	CASE
 		WHEN prod_name = 'Canned Tuna' then 'FOOD'
@@ -82,7 +83,7 @@ SELECT
 	FROM product
     GROUP BY category;
     
-    
+-- CMD for Product Ideality --
 SELECT 
 	p.prod_name as productName,
 	p.prod_src as productSource,
@@ -99,6 +100,10 @@ SELECT
 		on p.prod_id = d._id
     WHERE MONTH(d.delivery_date) = 11;
 
+-- CMDS for Viewing --
+SELECT * FROM product;
+SELECT * FROM delivery;
+SELECT * FROM inventory;
 
      
     
